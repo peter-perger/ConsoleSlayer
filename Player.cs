@@ -8,14 +8,17 @@ namespace ConsoleSlayer
     {
         Position position;
         ConsoleSprite sprite;
+        double fillingRatio;
 
         public Position Position { get => position; set => position = value; }
         public ConsoleSprite Sprite { get => sprite; set => sprite = value; }
+        public double FillingRatio { get; set; }
 
         public Player (int x, int y)
         {
             this.Position = new Position(x, y);
             this.Sprite = new ConsoleSprite(ConsoleColor.Black, ConsoleColor.Green, 'O');
+            this.FillingRatio = 0.4;
         }
     }
 }

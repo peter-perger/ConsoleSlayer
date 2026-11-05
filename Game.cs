@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace ConsoleSlayer
@@ -20,7 +21,7 @@ namespace ConsoleSlayer
             Items = new List<GameItem>();
         }
 
-        private void RenderSingleSprite (Position position, ConsoleSprite sprite)
+        private void RenderSingleSprite(Position position, ConsoleSprite sprite)
         {
 
             if (position.X >= 0 && position.X < Console.WindowWidth
@@ -73,6 +74,47 @@ namespace ConsoleSlayer
             }
         }
 
+        private List<GameItem> GetGameItemsWithinDistance(Position position, double distance)
+        {
+            List<GameItem> itemsInRange = new List<GameItem>();
+
+            foreach (GameItem item in Items)
+            {
+                double objectDistance = Position.Distance(item.Position, position);
+
+                if(objectDistance <= distance)
+                {
+                    itemsInRange.Add(item);
+                }
+            }
+
+            return itemsInRange;
+        }
+
+        private double GetTotalFillingRatio(Position position)
+        {
+            List<GameItem> itemsWithinDistance = GetGameItemsWithinDistance(position, 0);
+            double totalFillingRatio = 0.0;
+
+            foreach (GameItem item in itemsWithinDistance)
+            {
+                totalFillingRatio += item.FillingRatio;
+            }
+
+            return totalFillingRatio;
+        }
+
+        private void Move (Player player, Position position)
+        {
+            double posFillingRatio = GetTotalFillingRatio(position);
+            double userAndItemFillingRatio = posFillingRatio + Player.FillingRatio;
+
+            if (userAndItemFillingRatio <= 1.0) 
+            {
+                player.Position = position;
+            }
+        }
+
         private void UserAction()
         {
             if (Console.KeyAvailable)
@@ -83,7 +125,10 @@ namespace ConsoleSlayer
                 {
                     case ConsoleKey.LeftArrow:
                         if (Player.Position.X > 0) {
-                             Player.Position.X -= 1;
+                            Position step = new Position(-1, 0);
+                            Position targetPosition = Position.Add(Player.Position, step);
+
+                            Move(Player, targetPosition);
 
                         }
                         break;
@@ -91,21 +136,30 @@ namespace ConsoleSlayer
                     case ConsoleKey.RightArrow:
                         if (Player.Position.X < Console.WindowWidth - 1)
                         {
-                            Player.Position.X += 1;
+                            Position step = new Position(1, 0);
+                            Position targetPosition = Position.Add(Player.Position, step);
+
+                            Move(Player, targetPosition);
                         }
                         break;
 
                     case ConsoleKey.UpArrow:
                         if (Player.Position.Y > 0)
                         {
-                            Player.Position.Y -= 1;
+                            Position step = new Position(0, -1);
+                            Position targetPosition = Position.Add(Player.Position, step);
+
+                            Move(Player, targetPosition);
                         }
                         break;
 
                     case ConsoleKey.DownArrow:
                         if (Player.Position.Y < Console.WindowHeight - 1)
                         {
-                            Player.Position.Y += 1;
+                            Position step = new Position(0, 1);
+                            Position targetPosition = Position.Add(Player.Position, step);
+
+                            Move(Player, targetPosition);
                         }
                         break;
 
