@@ -1,0 +1,15 @@
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.AssemblyInfoInputs.cache
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.AssemblyInfo.cs
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.csproj.CoreCompileInputs.cache
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\bin\Debug\net10.0\ConsoleSlayer.exe
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\bin\Debug\net10.0\ConsoleSlayer.deps.json
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\bin\Debug\net10.0\ConsoleSlayer.runtimeconfig.json
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\bin\Debug\net10.0\ConsoleSlayer.dll
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\bin\Debug\net10.0\ConsoleSlayer.pdb
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.dll
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\refint\ConsoleSlayer.dll
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.pdb
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.genruntimeconfig.cache
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ref\ConsoleSlayer.dll
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleS.8DD96659.Up2Date
