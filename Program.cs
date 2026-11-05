@@ -5,6 +5,7 @@
         static void Main(string[] args)
         {
             #region EarlierTetst
+            
             //#region Position
             //Position p1 = new Position(3, 4);
             //Position p2 = new Position(1, 2);
@@ -20,6 +21,7 @@
             //Console.WriteLine('\n');
             //#endregion
 
+            
             //#region ConsolSprite
             //ConsoleSprite csp = new ConsoleSprite(ConsoleColor.DarkCyan, ConsoleColor.Black, 'D');
             //Console.BackgroundColor = csp.BackgroundColor;
@@ -35,6 +37,7 @@
 
             //#endregion
 
+            
             //#region Player
             //Player player1 = new Player(10, 1);
 
@@ -54,6 +57,12 @@
 
             Player player1 = new Player(1, 1);
             Game myGame = new Game(player1);
+            
+            myGame.Items.Add(new GameItem(5, 2, ItemType.Door));
+            myGame.Items.Add(new GameItem(8, 2, ItemType.Medikit));
+            myGame.Items.Add(new GameItem(1, 14, ItemType.Ammo));
+            myGame.Items.Add(new GameItem(4, 22, ItemType.Wall));
+
 
             myGame.Run();
         }

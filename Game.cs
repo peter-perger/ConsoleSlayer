@@ -7,16 +7,17 @@ namespace ConsoleSlayer
     internal class Game
     {
         Player player;
-
         bool isRunning;
-
+        List<GameItem> items;
+        
         public Player Player { get; private set; }
-
         public bool Exited { get => isRunning; set => isRunning = value; }
+        public List<GameItem> Items { get; set; }
 
         public Game (Player player)
         {
             Player = player;
+            Items = new List<GameItem>();
         }
 
         private void RenderSingleSprite (Position position, ConsoleSprite sprite)
@@ -42,9 +43,36 @@ namespace ConsoleSlayer
             Console.Clear();
             Console.CursorVisible = false;
             Console.ResetColor();
+
+            foreach(GameItem item in Items)
+            {
+                if (item is not null)
+                {
+                    RenderSingleSprite(item.Position, item.Sprite);
+                }
+            }
+
             RenderSingleSprite(this.Player.Position, this.Player.Sprite);
         }
     
+        private void CleanUpGameItems()
+        {
+            List<GameItem> notAvailableItems = new List<GameItem>();
+
+            foreach (GameItem item in Items)
+            {
+                if (!item.Available)
+                {
+                    notAvailableItems.Add(item);
+                }
+            }
+
+            foreach(GameItem item in notAvailableItems)
+            {
+                Items.Remove(item);
+            }
+        }
+
         private void UserAction()
         {
             if (Console.KeyAvailable)
@@ -81,6 +109,13 @@ namespace ConsoleSlayer
                         }
                         break;
 
+                    case ConsoleKey.D:
+                        foreach(GameItem item in Items)
+                        {
+                            item.Interact();
+                        }
+                        break;
+
                     case ConsoleKey.Escape:
                         Exited = true;
                         break;
@@ -94,7 +129,8 @@ namespace ConsoleSlayer
             {
                 RenderGame();
                 UserAction();
-                Thread.Sleep(25);
+                CleanUpGameItems();
+                Thread.Sleep(20);
             }
         }
     }

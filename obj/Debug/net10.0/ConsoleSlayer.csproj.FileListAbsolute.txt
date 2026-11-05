@@ -13,3 +13,4 @@ C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.
 C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.genruntimeconfig.cache
 C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ref\ConsoleSlayer.dll
 C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleS.8DD96659.Up2Date
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.sourcelink.json
