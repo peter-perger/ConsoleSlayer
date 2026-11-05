@@ -22,7 +22,8 @@ namespace ConsoleSlayer
         private void RenderSingleSprite (Position position, ConsoleSprite sprite)
         {
 
-            if (position.X <= Console.WindowWidth && position.X <= Console.WindowHeight)
+            if (position.X >= 0 && position.X < Console.WindowWidth
+                && position.Y >= 0 && position.Y < Console.WindowHeight)
             
             {
                 Console.SetCursorPosition (position.X, position.Y);
