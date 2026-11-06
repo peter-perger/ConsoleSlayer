@@ -63,6 +63,9 @@
             myGame.Items.Add(new GameItem(1, 14, ItemType.Ammo));
             myGame.Items.Add(new GameItem(4, 22, ItemType.Wall));
 
+            myGame.Demons.Add(new Demon(8, 5, DemonType.Imp));
+            myGame.Demons.Add(new Demon(1, 5, DemonType.Zombieman));
+            myGame.Demons.Add(new Demon(12, 7, DemonType.Mancubus));
 
             myGame.Run();
         }
