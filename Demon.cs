@@ -9,16 +9,7 @@ namespace ConsoleSlayer
     enum DemonStateType { Idle, Move, Attack}
     internal class Demon
     {
-        Position position;
-        ConsoleSprite sprite;
-        DemonType type;
-        double fillingRatio;
         int health;
-        bool alive;
-        int sightRange;
-        int attackRange;
-        DemonStateType state;
-
         public Position Position { get; set; }
         public ConsoleSprite Sprite { get; private set; }
         public DemonType Type { get; private set; }

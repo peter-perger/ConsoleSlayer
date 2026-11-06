@@ -9,10 +9,12 @@ namespace ConsoleSlayer
 
     internal class GameItem
     {
-        Position position;
-        ConsoleSprite sprite;
-        ItemType type;
-        double fillingRatio;
+        public Position Position { get; private set; }
+        public ConsoleSprite Sprite { get; private set; }
+        public ItemType Type { get; private set; }
+        public double FillingRatio { get; set; }
+        public bool Available { get; private set; } = true;
+
 
         public GameItem(int x, int y, ItemType type)
         {
@@ -21,11 +23,6 @@ namespace ConsoleSlayer
             SetInitialProperties();
         }
 
-        public Position Position { get; private set; }
-        public ConsoleSprite Sprite { get; private set; }
-        public ItemType Type { get; private set; }
-        public double FillingRatio { get; set; }
-        public bool Available { get; private set; } = true;
 
         private void SetInitialProperties()
         {

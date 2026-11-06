@@ -8,13 +8,8 @@ namespace ConsoleSlayer
 {
     internal class Game
     {
-        Player player;
-        bool isRunning;
-        List<GameItem> items;
-        List<Demon> demons;
-
         public Player Player { get; private set; }
-        public bool Exited { get => isRunning; set => isRunning = value; }
+        public bool Exited { get; set; }
         public List<GameItem> Items { get; set; }
         public List<Demon> Demons { get; set; }
 

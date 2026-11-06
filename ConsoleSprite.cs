@@ -6,19 +6,15 @@ namespace ConsoleSlayer
 {
     internal class ConsoleSprite
     {
-        ConsoleColor backgroundColor;
-        ConsoleColor foreGroundColor;
-        char glyph;
+        public ConsoleColor BackgroundColor { get; set; }
+        public ConsoleColor ForeGroundColor { get; set; }
+        public char Glyph { get; set; }
 
-        public ConsoleSprite(ConsoleColor backgroundColor, ConsoleColor foreGroundColor, char Glyph)
+        public ConsoleSprite(ConsoleColor backgroundColor, ConsoleColor foreGroundColor, char glyph)
         {
             this.BackgroundColor = backgroundColor;
             this.ForeGroundColor = foreGroundColor;
-            this.glyph = Glyph;
+            this.Glyph = glyph;
         }
-
-        public ConsoleColor BackgroundColor { get => backgroundColor; set => backgroundColor = value; }
-        public ConsoleColor ForeGroundColor { get => foreGroundColor; set => foreGroundColor = value; }
-        public char Glyph { get => glyph; set => glyph = value; }
     }
 }

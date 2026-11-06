@@ -6,12 +6,8 @@ namespace ConsoleSlayer
 {
     internal class Player
     {
-        Position position;
-        ConsoleSprite sprite;
-        double fillingRatio;
-
-        public Position Position { get => position; set => position = value; }
-        public ConsoleSprite Sprite { get => sprite; set => sprite = value; }
+        public Position Position { get; set; }
+        public ConsoleSprite Sprite { get; set; }
         public double FillingRatio { get; set; }
 
         public Player (int x, int y)
