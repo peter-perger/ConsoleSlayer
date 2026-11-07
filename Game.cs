@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection.Metadata.Ecma335;
@@ -116,7 +117,7 @@ namespace ConsoleSlayer
             return itemsInRange;
         }
 
-        private List<Demon> DemonsWithinDistance(Position position, double distance)
+        private List<Demon> GetDemonsWithinDistance(Position position, double distance)
         {
             List<Demon> demonsInRange = new List<Demon>();
 
@@ -136,7 +137,7 @@ namespace ConsoleSlayer
         private double GetTotalFillingRatio(Position position)
         {
             List<GameItem> itemsWithinDistance = GetGameItemsWithinDistance(position, 0);
-            List<Demon> demonsWithinDistance = DemonsWithinDistance(position, 0);
+            List<Demon> demonsWithinDistance = GetDemonsWithinDistance(position, 0);
 
             double totalFillingRatio = 0.0;
 
@@ -199,6 +200,11 @@ namespace ConsoleSlayer
                     {
                         DemonMoveLogic(d);
                     }
+
+                    else if (currentState == DemonStateType.Attack)
+                    {
+                        DemonAttackLogic(d);
+                    }
                 }
             }
         }
@@ -259,6 +265,10 @@ namespace ConsoleSlayer
                         }
                         break;
 
+                    case ConsoleKey.A:
+                        PlayerAttackLogic();
+                        break;
+
                     case ConsoleKey.Escape:
                         Exited = true;
                         break;
@@ -266,9 +276,81 @@ namespace ConsoleSlayer
             }
         }
 
+        public void PlayerAttackLogic()
+        {
+            if (Player.Ammo > 0)
+            {
+                Player.Shoot();
+                List<Demon> demonsInDistance = GetDemonsWithinDistance(Player.Position, Player.SightRange);
+
+                foreach (Demon demon in demonsInDistance)
+                {
+                    Random rng = new Random();
+                    
+                    int u = rng.Next(35, 105);
+
+                    int randomDamage = 2 * u;
+                    double damageDivider = 1 + Position.Distance(Player.Position, demon.Position);
+
+                    double finalDamage = randomDamage / damageDivider;
+
+                    demon.TakeDamage(finalDamage);
+
+                    if (!demon.Alive)
+                    {
+                        switch (demon.Type)
+                        {
+                            case DemonType.Zombieman:
+                                Player.AddCombatPoints(1);
+                                break;
+
+                            case DemonType.Imp:
+                                Player.AddCombatPoints(3);
+                                break;
+
+                            case DemonType.Mancubus:
+                                Player.AddCombatPoints(10);
+                                break;
+
+                        }
+                    }
+                }
+            }
+        }
+
+        public void DemonAttackLogic(Demon demon)
+        {
+            double distanceFormPlayer = Position.Distance(Player.Position, demon.Position);
+
+            Random rng = new Random();
+            int u = 0;
+
+            switch (demon.Type)
+            {
+                case DemonType.Imp:
+                    u = rng.Next(3, 24);
+                    break;
+
+                case DemonType.Zombieman:
+                    u = rng.Next(3, 15);
+                    break;
+
+                case DemonType.Mancubus:
+                    u = rng.Next(8, 64);
+                    break;
+            }
+            
+            int randomDamage = 2 * u;
+            double damageDivider = 1 + distanceFormPlayer;
+
+            double finalDamage = randomDamage / damageDivider;
+
+            Player.TakeDamage(finalDamage);
+        }
+       
         public void Run()
         {
-            while (!Exited)
+            while (!Exited && Player.Alive)
             {
                 RenderGame();
                 UserAction();
@@ -278,6 +360,12 @@ namespace ConsoleSlayer
 
                 CleanUpGameItems();
                 Thread.Sleep(20);
+            }
+
+            if (!Player.Alive)
+            {
+                Console.Clear();
+                Console.WriteLine("YOU ARE DEAD");
             }
         }
     }

@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             #region EarlierTetst
-            
+
             //#region Position
             //Position p1 = new Position(3, 4);
             //Position p2 = new Position(1, 2);
@@ -21,7 +21,7 @@
             //Console.WriteLine('\n');
             //#endregion
 
-            
+
             //#region ConsolSprite
             //ConsoleSprite csp = new ConsoleSprite(ConsoleColor.DarkCyan, ConsoleColor.Black, 'D');
             //Console.BackgroundColor = csp.BackgroundColor;
@@ -37,7 +37,7 @@
 
             //#endregion
 
-            
+
             //#region Player
             //Player player1 = new Player(10, 1);
 
@@ -55,6 +55,11 @@
 
             #endregion
 
+            #region ToDo list
+            //Demon & Player health - int or double mismatch
+            #endregion
+
+
             Player player1 = new Player(1, 1);
             Game myGame = new Game(player1);
             
@@ -63,9 +68,9 @@
             myGame.Items.Add(new GameItem(1, 14, ItemType.Ammo));
             myGame.Items.Add(new GameItem(4, 22, ItemType.Wall));
 
-            myGame.Demons.Add(new Demon(8, 5, DemonType.Imp));
-            myGame.Demons.Add(new Demon(1, 5, DemonType.Zombieman));
-            myGame.Demons.Add(new Demon(12, 7, DemonType.Mancubus));
+            myGame.Demons.Add(new Demon(0, 20, DemonType.Imp));
+            myGame.Demons.Add(new Demon(5, 20, DemonType.Zombieman));
+            myGame.Demons.Add(new Demon(10, 20, DemonType.Mancubus));
 
             myGame.Run();
         }

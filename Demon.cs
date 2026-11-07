@@ -19,7 +19,7 @@ namespace ConsoleSlayer
 
             set
             {
-                if (value <= 0)
+                if (value >= 0)
                 {
                     health = value;
                 }
@@ -45,7 +45,7 @@ namespace ConsoleSlayer
             {
                 case DemonType.Zombieman:
                     FillingRatio = 0.4;
-                    Health = 20;
+                    Health = 10;
                     SightRange = 3;
                     AttackRange = 1;
                     Sprite = new ConsoleSprite(ConsoleColor.Black, ConsoleColor.White, 'o');
@@ -54,7 +54,7 @@ namespace ConsoleSlayer
 
                 case DemonType.Imp:
                     FillingRatio = 0.4;
-                    Health = 60;
+                    Health = 12;
                     SightRange = 6;
                     AttackRange = 3;
                     Sprite = new ConsoleSprite(ConsoleColor.Black, ConsoleColor.Red, 'o');
@@ -63,7 +63,7 @@ namespace ConsoleSlayer
 
                 case DemonType.Mancubus:
                     FillingRatio = 0.9;
-                    Health = 600;
+                    Health = 15;
                     SightRange = 9;
                     AttackRange = 6;
                     Sprite = new ConsoleSprite(ConsoleColor.Black, ConsoleColor.Magenta, 'O');
@@ -87,6 +87,16 @@ namespace ConsoleSlayer
             else
             {
                 State = DemonStateType.Idle;
+            }
+        }
+
+        public void TakeDamage(double value)
+        {
+            Health -= (int)value;
+
+            if (Health <= 0)
+            {
+                Alive = false;
             }
         }
     }
