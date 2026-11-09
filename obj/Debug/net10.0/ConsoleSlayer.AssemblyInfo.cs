@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ConsoleSlayer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04e666f972fb0563dbfd7a53713d91a8ae2382a1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac00d3e553ecd2d64568cbcf14bbabd9447f050e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ConsoleSlayer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ConsoleSlayer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
