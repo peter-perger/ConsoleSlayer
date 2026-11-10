@@ -69,6 +69,7 @@ namespace ConsoleSlayer
             if (game.Player.Ammo > 0)
             {
                 game.Player.Shoot();
+                game.PlaySoundEffect(SoundEffectType.Shotgun);
                 List<Demon> demonsInDistance = GetDemonsWithinDistance(game.Player.Position, game.Player.SightRange);
 
                 foreach (Demon demon in demonsInDistance)
@@ -203,6 +204,7 @@ namespace ConsoleSlayer
             double finalDamage = randomDamage / damageDivider;
 
             game.Player.TakeDamage(finalDamage);
+            game.PlaySoundEffect(SoundEffectType.Pain);
         }
 
         private List<GameItem> GetGameItemsWithinDistance(Position position, double distance)
@@ -290,6 +292,7 @@ namespace ConsoleSlayer
                 {
                     case ItemType.Door:
                         item.Interact();
+                        game.PlaySoundEffect(SoundEffectType.Door);
                         break;
 
                     case ItemType.LevelExit:
@@ -313,8 +316,8 @@ namespace ConsoleSlayer
                         {
                             game.Player.PickupAmmo(5);
                             item.Interact();
+                            game.PlaySoundEffect(SoundEffectType.ItemPickup);
                         }
-
                         break;
 
                     case ItemType.Medikit:
@@ -322,6 +325,7 @@ namespace ConsoleSlayer
                         {
                             game.Player.PickupHealth(25);
                             item.Interact();
+                            game.PlaySoundEffect(SoundEffectType.ItemPickup);
                         }
 
                         break;
@@ -329,20 +333,21 @@ namespace ConsoleSlayer
                     case ItemType.ToxicWaste:
                         item.Interact();
                         game.Player.TakeDamage(5);
+                        game.PlaySoundEffect(SoundEffectType.Pain);
                         break;
                 }
             }
         }
 
-        private void DemonIndirectInteractionLogic(Demon d)
+        private void DemonIndirectInteractionLogic(Demon demon)
         {
-            List<GameItem> items = GetGameItemsWithinDistance(d.Position, 0);
+            List<GameItem> items = GetGameItemsWithinDistance(demon.Position, 0);
 
             foreach (GameItem item in items)
             {
                 if (item.Type == ItemType.ToxicWaste)
                 {
-                    d.TakeDamage(5);
+                    demon.TakeDamage(5);
                 }
             }
         }

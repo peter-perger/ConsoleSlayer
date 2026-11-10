@@ -3,13 +3,18 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using WMPLib;
 
 namespace ConsoleSlayer
 {
+    enum SoundEffectType { BFG, Door, ItemPickup, Pain, PlayerDeath, Shotgun }
     internal class Game
     {
+        public WindowsMediaPlayer MusicPlayer { get; set; }
+        public WindowsMediaPlayer SfxPlayer { get; set; }
         ConsoleRenderer consoleRenderer;
         GameLogic gameLogic;
         Stopwatch stpWtchLogic = new Stopwatch();
@@ -28,6 +33,8 @@ namespace ConsoleSlayer
             Player = player;
             Items = new List<GameItem>();
             Demons = new List<Demon>();
+            MusicPlayer = new WindowsMediaPlayer();
+            SfxPlayer = new WindowsMediaPlayer();
         }
 
         private void UserAction()
@@ -94,6 +101,43 @@ namespace ConsoleSlayer
 
                 gameLogic.PlayerIndirectInteractionLogic();
             }
+        }
+
+        public void PlaySoundEffect (SoundEffectType sfxType)
+        {
+            switch (sfxType)
+            {
+                case SoundEffectType.BFG:
+                    SfxPlayer.URL = @"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\bfg.mp3";
+                    break;
+
+                case SoundEffectType.Door:
+                    SfxPlayer.URL = @"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\door.mp3";
+                    break;
+                    
+                case SoundEffectType.ItemPickup:
+                    SfxPlayer.URL = @"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\item_pickup.mp3";
+                    break;
+
+                case SoundEffectType.Pain:
+                    SfxPlayer.URL = @"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\pain.mp3";
+                    break;
+
+                case SoundEffectType.PlayerDeath:
+                    SfxPlayer.URL = @"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\player_death.mp3";
+                    break;
+
+                case SoundEffectType.Shotgun:
+                    SfxPlayer.URL = @"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\shotgun.mp3";
+                    break;
+            }
+
+            SfxPlayer.controls.play();
+        }
+
+        public void PLayMusic(string filePath)
+        {
+            MusicPlayer.URL = filePath;
         }
 
         public void LoadMapFromPlainText(string filePath)
@@ -239,6 +283,8 @@ namespace ConsoleSlayer
 
         public void Run()
         {
+            //PLayMusic(@"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\doom_music.mp3");
+
             stpWtchLogic.Start();
             stpWtchRenderer.Start();
 
@@ -260,6 +306,17 @@ namespace ConsoleSlayer
 
                 Thread.Sleep(25);
             }
+
+            if(!Player.Alive)
+            {
+                PLayMusic(@"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\player_death.mp3");
+            }
+            else if (Exited)
+            {
+                PLayMusic(@"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Sounds\level_complete.mp3");
+            }
+
+            Console.ReadLine();
         }
 
     }

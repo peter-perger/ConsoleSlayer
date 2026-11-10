@@ -16,3 +16,6 @@ C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.
 C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.sourcelink.json
 C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\bin\Debug\net10.0\Maps\demo_map.txt
 C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\bin\Debug\net10.0\Maps\pmp_arena.txt
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\Interop.WMPLib.dll
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\Interop.MediaPlayer.dll
+C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\obj\Debug\net10.0\ConsoleSlayer.csproj.ResolveComReference.cache
