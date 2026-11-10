@@ -1,4 +1,6 @@
-﻿namespace ConsoleSlayer
+﻿using System.Diagnostics.Metrics;
+
+namespace ConsoleSlayer
 {
     internal class Program
     {
@@ -59,20 +61,40 @@
             //Demon & Player health - int or double mismatch
             #endregion
 
+            #region Testing map load
+            //Player player1 = new Player(1, 1);
+            //Game myGame = new Game(player1);
 
+            //myGame.LoadMapFromPlainText(@"C:\Users\Peter\Documents\program\C#\ConsoleSlayer\ConsoleSlayer\Maps\demo_map.txt");
+            #endregion
+
+            #region Demo items and demons
+            //myGame.Items.Add(new GameItem(5, 2, ItemType.Door));
+            //myGame.Items.Add(new GameItem(8, 2, ItemType.Medikit));
+            //myGame.Items.Add(new GameItem(1, 14, ItemType.Ammo));
+            //myGame.Items.Add(new GameItem(4, 22, ItemType.Wall));
+            //myGame.Items.Add(new GameItem(0, 19, ItemType.ToxicWaste));
+            //myGame.Items.Add(new GameItem(5, 19, ItemType.ToxicWaste));
+            //myGame.Items.Add(new GameItem(10, 19, ItemType.ToxicWaste));
+
+            //myGame.Demons.Add(new Demon(0, 20, DemonType.Imp));
+            //myGame.Demons.Add(new Demon(5, 20, DemonType.Zombieman));
+            //myGame.Demons.Add(new Demon(10, 20, DemonType.Mancubus));
+            #endregion
+
+            #region Run the Game
             Player player1 = new Player(1, 1);
             Game myGame = new Game(player1);
-            
-            myGame.Items.Add(new GameItem(5, 2, ItemType.Door));
-            myGame.Items.Add(new GameItem(8, 2, ItemType.Medikit));
-            myGame.Items.Add(new GameItem(1, 14, ItemType.Ammo));
-            myGame.Items.Add(new GameItem(4, 22, ItemType.Wall));
 
-            myGame.Demons.Add(new Demon(0, 20, DemonType.Imp));
-            myGame.Demons.Add(new Demon(5, 20, DemonType.Zombieman));
-            myGame.Demons.Add(new Demon(10, 20, DemonType.Mancubus));
+            string mapPath = Path.Combine(
+                AppContext.BaseDirectory,
+                "Maps",
+                "pmp_arena.txt"
+                );
 
+            myGame.LoadMapFromPlainText(mapPath);            
             myGame.Run();
+            #endregion
         }
     }
 }

@@ -14,12 +14,19 @@ namespace ConsoleSlayer
         public ConsoleSprite Sprite { get; private set; }
         public DemonType Type { get; private set; }
         public double FillingRatio { get; set; }
-        public int Health { 
-            get;
+
+        // Not reading the fields their setters update
+        public int Health 
+        { 
+            get => health;
 
             set
             {
-                if (value >= 0)
+                if (value < 0)
+                {
+                    health = 0;
+                }
+                else
                 {
                     health = value;
                 }
@@ -76,11 +83,11 @@ namespace ConsoleSlayer
         {
             double distanceBetween = Position.Distance(Position, player.Position);
 
-            if(distanceBetween < AttackRange)
+            if (distanceBetween <= AttackRange)
             {
                 State = DemonStateType.Attack;
             }
-            else if (distanceBetween < SightRange)
+            else if (distanceBetween <= SightRange)
             {
                 State = DemonStateType.Move;
             }
@@ -92,6 +99,7 @@ namespace ConsoleSlayer
 
         public void TakeDamage(double value)
         {
+
             Health -= (int)value;
 
             if (Health <= 0)

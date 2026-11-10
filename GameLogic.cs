@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace ConsoleSlayer
@@ -11,6 +12,14 @@ namespace ConsoleSlayer
         public GameLogic (Game Game)
         {
             this.game = Game;
+        }
+
+        private bool IsInsideMap(Position position)
+        {
+            return position.X >= 0
+                && position.X < game.MapWidth
+                && position.Y >= 0
+                && position.Y <= game.MapHeight;
         }
 
         private double GetTotalFillingRatio(Position position)
@@ -28,6 +37,10 @@ namespace ConsoleSlayer
             foreach (Demon demon in demonsWithinDistance)
             {
                 totalFillingRatio += demon.FillingRatio;
+            }
+            if (Position.Distance(game.Player.Position, position) == 0)
+            {
+                totalFillingRatio += game.Player.FillingRatio;
             }
 
             return totalFillingRatio;
@@ -95,10 +108,20 @@ namespace ConsoleSlayer
 
         public void Move(Player player, Position position)
         {
-            double posFillingRatio = GetTotalFillingRatio(position);
-            double userAndItemFillingRatio = posFillingRatio + game.Player.FillingRatio;
+            if(!IsInsideMap(position))
+            {
+                return;
+            }
 
-            if (userAndItemFillingRatio <= 1.0)
+            if(Position.Distance(player.Position, position) == 0)
+            {
+                return;
+            }
+
+            double totalFillingRatio = GetTotalFillingRatio(position) + player.FillingRatio;
+
+
+            if (totalFillingRatio <= 1.0)
             {
                 player.Position = position;
             }
@@ -106,10 +129,19 @@ namespace ConsoleSlayer
 
         public void Move(Demon demon, Position position)
         {
-            double posFillingRatio = GetTotalFillingRatio(position);
-            double userAndItemFillingRatio = posFillingRatio + demon.FillingRatio;
+            if(!IsInsideMap(position))
+            {
+                return;
+            }
 
-            if (userAndItemFillingRatio <= 1.0)
+            if(Position.Distance(demon.Position, position) == 0)
+            {
+                return;
+            }
+
+            double totalFillingRatio = GetTotalFillingRatio(position) + demon.FillingRatio;
+
+            if (totalFillingRatio <= 1.0)
             {
                 demon.Position = position;
             }
@@ -179,11 +211,16 @@ namespace ConsoleSlayer
 
             foreach (GameItem item in game.Items)
             {
+                if(!item.Available)
+                {
+                    continue;
+                }
+
                 double objectDistance = Position.Distance(item.Position, position);
 
                 if (objectDistance <= distance)
                 {
-                    itemsInRange.Add(item);
+                     itemsInRange.Add(item);
                 }
             }
 
@@ -194,13 +231,18 @@ namespace ConsoleSlayer
         {
             List<Demon> demonsInRange = new List<Demon>();
 
-            foreach (Demon d in game.Demons)
+            foreach (Demon demon in game.Demons)
             {
-                double objectDistance = Position.Distance(d.Position, position);
+                if (!demon.Alive)
+                {
+                    continue;
+                }
+
+                double objectDistance = Position.Distance(demon.Position, position);
 
                 if (objectDistance <= distance)
                 {
-                    demonsInRange.Add(d);
+                    demonsInRange.Add(demon);
                 }
             }
 
@@ -209,24 +251,25 @@ namespace ConsoleSlayer
         
         private void UpdateDemons()
         {
-            foreach (Demon d in game.Demons)
+            foreach (Demon demon in game.Demons)
             {
-                if (d is not null)
+                if (demon is null || !demon.Alive)
                 {
-                    d.UpdateState(game.Player);
-
-                    DemonStateType currentState = d.State;
-
-                    if (currentState == DemonStateType.Move)
-                    {
-                        DemonMoveLogic(d);
-                    }
-
-                    else if (currentState == DemonStateType.Attack)
-                    {
-                        DemonAttackLogic(d);
-                    }
+                    continue;
                 }
+
+                demon.UpdateState(game.Player);
+
+                if (demon.State == DemonStateType.Move)
+                {
+                    DemonMoveLogic(demon);
+                }
+                else if (demon.State == DemonStateType.Attack)
+                {
+                    DemonAttackLogic(demon);
+                }
+
+                DemonIndirectInteractionLogic(demon);
             }
         }
     
@@ -235,6 +278,73 @@ namespace ConsoleSlayer
             UpdateDemons();
             CleanUpGameItems();
             CleanUpDemons();
+        }
+
+        public void PlayerDirectInteractionLogic()
+        {
+            List<GameItem> items = GetGameItemsWithinDistance(this.game.Player.Position, 1);
+
+            foreach(GameItem item in items)
+            {
+                switch (item.Type)
+                {
+                    case ItemType.Door:
+                        item.Interact();
+                        break;
+
+                    case ItemType.LevelExit:
+                        item.Interact();
+                        game.Exited = true;
+                        break;
+                }
+            }
+        }
+
+        public void PlayerIndirectInteractionLogic()
+        {
+            List<GameItem> items = GetGameItemsWithinDistance(this.game.Player.Position, 0);
+
+            foreach(GameItem item in items)
+            {
+                switch (item.Type)
+                {
+                    case ItemType.Ammo:
+                        if (game.Player.Ammo < game.Player.MaxAmmo)
+                        {
+                            game.Player.PickupAmmo(5);
+                            item.Interact();
+                        }
+
+                        break;
+
+                    case ItemType.Medikit:
+                        if(game.Player.Health < game.Player.MaxHealth)
+                        {
+                            game.Player.PickupHealth(25);
+                            item.Interact();
+                        }
+
+                        break;
+
+                    case ItemType.ToxicWaste:
+                        item.Interact();
+                        game.Player.TakeDamage(5);
+                        break;
+                }
+            }
+        }
+
+        private void DemonIndirectInteractionLogic(Demon d)
+        {
+            List<GameItem> items = GetGameItemsWithinDistance(d.Position, 0);
+
+            foreach (GameItem item in items)
+            {
+                if (item.Type == ItemType.ToxicWaste)
+                {
+                    d.TakeDamage(5);
+                }
+            }
         }
     }
 }

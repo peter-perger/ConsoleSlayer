@@ -6,7 +6,7 @@ namespace ConsoleSlayer
 {
     internal class ConsoleRenderer
     {
-        Game game;
+        private readonly Game game;
 
         public ConsoleRenderer (Game Game)
         {

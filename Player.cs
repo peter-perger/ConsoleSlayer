@@ -14,33 +14,35 @@ namespace ConsoleSlayer
         public double FillingRatio { get; set; }
         public int Health
         {
-            get { return health; }
+            get => health;
             
             set
             {
-                // If damage pushes health below 0, stop exactly at 0 (Dead)
-                if (value < 0)
-                {
-                    health = 0;
-                }
-                // If a medikit overheals, stop at MaxHealth
-                else if (value > MaxHealth)
+                if (value + health >= MaxHealth)
                 {
                     health = MaxHealth;
                 }
-                // Normal health update
                 else
                 {
-                    health = value;
+                    health += value;
                 }
             }
         }
-        public int Ammo {
-            get;
+        public int Ammo 
+        {
+            get => ammo;
 
             set
             {
-                if (value <= MaxAmmo && value >= 0)
+                if (value < 0)
+                {
+                    ammo = 0;
+                }
+                else if (value > MaxAmmo)
+                {
+                    ammo = MaxAmmo;
+                }
+                else
                 {
                     ammo = value;
                 }
@@ -59,8 +61,8 @@ namespace ConsoleSlayer
             this.FillingRatio = 0.4;
             this.Health = 100;
             this.SightRange = 8;
+            this.Ammo = MaxAmmo;
             this.Alive = true;
-            this.Ammo = 150;
         }
 
         public void Shoot()
@@ -73,13 +75,29 @@ namespace ConsoleSlayer
             CombatPoints += value;
         }
 
-        public void TakeDamage (double value)
+        public void TakeDamage(double value)
         {
             Health -= (int)value;
 
             if (Health == 0)
             {
                 Alive = false;
+            }
+        }
+    
+        public void PickupAmmo(int amount)
+        {
+            if (amount > 0)
+            {
+                Ammo += amount;
+            }
+        }
+
+        public void PickupHealth(int amount)
+        {
+            if (amount > 0)
+            {
+                Health += amount;
             }
         }
     }
